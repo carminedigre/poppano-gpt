@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: poppano-gpt
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ai
+    username: ai
+    password: ai
+    driver-class-name: org.postgresql.Driver
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: llama3:8b
+      embedding:
+        options:
+          model: mxbai-embed-large:335m
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        schema-name: public
+        table-name: rag_docs
+        dimensions: 1024
+
+# UI Configuration
+thymeleaf:
+  cache: false
+  prefix: classpath:/templates/
+  suffix: .html
