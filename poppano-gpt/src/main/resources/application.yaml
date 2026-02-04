@@ -4,6 +4,7 @@ server:
 spring:
   application:
     name: poppano-gpt
+
   datasource:
     url: jdbc:postgresql://localhost:5432/ai
     username: ai
@@ -12,19 +13,46 @@ spring:
 
   ai:
     ollama:
+      init:
+        pull-model-strategy: when_missing
       base-url: http://localhost:11434
       chat:
         options:
-          model: llama3:8b
+          model: granite4:3b
       embedding:
         options:
-          model: mxbai-embed-large:335m
+          model: granite-embedding:278m
+
     vectorstore:
       pgvector:
         initialize-schema: true
         schema-name: public
         table-name: rag_docs
         dimensions: 1024
+        index-type: hnsw
+    chat:
+      observations:
+        log-prompt: true
+        log-completion: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+arconia:
+  dev:
+    services:
+      lgtm:
+        enabled: false
+      phoenix:
+        enabled: true
+
+  observations:
+    generative-ai:
+      openinference:
+        enabled: true
 
 # UI Configuration
 thymeleaf:

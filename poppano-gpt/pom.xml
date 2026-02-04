@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.6</version>
+		<version>4.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.poppano.gpt</groupId>
 	<artifactId>poppano-gpt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>poppano-gpt</name>
-	<description>Poppano-GPT il sindaco </description>
+	<description>Poppano-GPT</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -28,12 +28,21 @@
 	</scm>
 	<properties>
 		<java.version>25</java.version>
-		<spring-ai.version>1.0.3</spring-ai.version>
+		<spring-ai.version>2.0.0-M2</spring-ai.version>
+		<arconia.version>0.22.0</arconia.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-restclient</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
@@ -51,11 +60,27 @@
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-starter-vector-store-pgvector</artifactId>
 		</dependency>
+			<dependency>
+			    <groupId>org.springframework.ai</groupId>
+			    <artifactId>spring-ai-rag</artifactId>
+			</dependency>
 		<dependency>
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-tika-document-reader</artifactId>
 		</dependency>
- <!-- UI dependencies -->
+		<dependency>
+		    <groupId>io.arconia</groupId>
+		    <artifactId>arconia-opentelemetry-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>io.arconia</groupId>
+		    <artifactId>arconia-openinference-semantic-conventions</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>io.arconia</groupId>
+		    <artifactId>arconia-dev-services-phoenix</artifactId>
+		</dependency>
+		<!-- UI dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -84,6 +109,13 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+		    <dependency>
+		      <groupId>io.arconia</groupId>
+		      <artifactId>arconia-bom</artifactId>
+		      <version>${arconia.version}</version>
+		      <type>pom</type>
+		      <scope>import</scope>
+		    </dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -99,6 +131,9 @@
 							<artifactId>lombok</artifactId>
 						</path>
 					</annotationProcessorPaths>
+			        <compilerArgs>
+			          <arg>-parameters</arg>
+			        </compilerArgs>					
 				</configuration>
 			</plugin>
 			<plugin>
