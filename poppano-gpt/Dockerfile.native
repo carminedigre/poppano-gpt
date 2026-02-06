@@ -1,0 +1,19 @@
+# Native image build with GraalVM
+FROM ghcr.io/graalvm/native-image-community:25 AS build
+WORKDIR /workspace
+
+COPY pom.xml mvnw mvnw.cmd ./
+COPY .mvn .mvn
+RUN ./mvnw -q -DskipTests dependency:go-offline
+
+COPY src src
+RUN ./mvnw -q -Pnative -DskipTests native:compile
+
+FROM debian:bookworm-slim
+WORKDIR /app
+RUN useradd -r -u 1001 appuser
+ARG APP_NAME=poppano-gpt
+COPY --from=build /workspace/target/${APP_NAME} /app/app
+USER appuser
+EXPOSE 8080
+ENTRYPOINT ["/app/app"]
