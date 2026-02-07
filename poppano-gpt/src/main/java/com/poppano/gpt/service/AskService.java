@@ -26,9 +26,9 @@ public class AskService {
 		var context = hits.stream().map(d -> d.getFormattedContent()).collect(Collectors.joining("\n---\n"));
 
 		var system = """
-				Sei un assistente disponibile. Usa SOLO il contesto fornito per rispondere e sempre la lingua italiana.
-				Se la risposta non è nel contesto, rispondi che non lo sai.
-				Quando possibile, cita il nome del file di origine e la pagina, se disponibili.
+				You are a helpful assistant. Use ONLY the provided context to answer and always use the English language.
+				If the answer is not in the context, reply that you do not know.
+				When possible, cite the source file name and the page, if available.
 				""";
 
 		var prompt = new Prompt(new UserMessage(system + "\n\nCONTEXT:\n" + context + "\n\nQUESTION: " + question));
