@@ -38,7 +38,7 @@ public class Tools {
                 .advisors(RetrievalAugmentationAdvisor.builder()
                         .documentRetriever(SearchEngineDocumentRetriever.builder()
                                 .restClientBuilder(restClientBuilder)
-                                .maxResults(10)
+                                .maxResults(5)
                                 .build())
                         .build())
                 .user(query)
