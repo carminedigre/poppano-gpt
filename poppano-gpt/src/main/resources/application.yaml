@@ -21,15 +21,13 @@ spring:
           model: granite4:3b
       embedding:
         options:
-          model: granite-embedding:278m
-
+          model: mxbai-embed-large:335m
     vectorstore:
       pgvector:
         initialize-schema: true
         schema-name: public
         table-name: rag_docs
         dimensions: 1024
-        index-type: hnsw
     chat:
       observations:
         log-prompt: true
