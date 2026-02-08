@@ -7,7 +7,6 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
