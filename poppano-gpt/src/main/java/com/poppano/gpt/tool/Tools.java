@@ -1,11 +1,13 @@
 package com.poppano.gpt.tool;
 
 import com.poppano.gpt.component.SearchEngineDocumentRetriever;
+import com.poppano.gpt.component.WeatherEngine;
 import org.jspecify.annotations.Nullable;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,11 @@ public class Tools {
     @Tool(description = "Get the current date and time in the user's timezone")
     String getCurrentDateTime() {
         return LocalDateTime.now().atZone(LocaleContextHolder.getTimeZone().toZoneId()).toString();
+    }
+
+    @Tool(description = "Get weather forecast for a specific latitude/longitude")
+    String getWeather(double latitude, double longitude) {
+        return WeatherEngine.builder().restClientBuilder(restClientBuilder).build().retrieve(latitude,longitude);
     }
 
     @Tool(description = "Retrieve information by searching the web")
