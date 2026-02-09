@@ -33,6 +33,10 @@ spring:
         log-prompt: true
         log-completion: true
 
+  devtools:
+    livereload:
+     enabled: true
+
 management:
   endpoints:
     web:
