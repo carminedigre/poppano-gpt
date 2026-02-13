@@ -12,6 +12,10 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 @Component
@@ -67,5 +71,36 @@ public class Tools {
                 .user(query)
                 .call()
                 .content();
+    }
+
+    @Tool(description = "Update poppanoGPT template based on a change request and return the updated HTML")
+    String updateChatTemplate(String query) {
+        Path templatePath = Path.of("src/main/resources/templates/chat.html");
+        String template = readTemplate(templatePath);
+        String updatedTemplate = chatClientBuilder.clone().build().prompt()
+                //.system("You are a precise HTML editor. Apply only the change request to the template, no other modifications. Return the full updated HTML only, with no explanations or optimizations.")
+                .system("You are a precise HTML editor.Applay the change request to the template,Return the full updated HTML only, with no explanations")
+                .user("Change request: " + query + "\n\nCurrent template:\n" + template)
+                .call()
+                .content();
+        IO.println(updatedTemplate);
+        writeTemplate(templatePath, updatedTemplate);
+        return "DONE";
+    }
+
+    private String readTemplate(Path templatePath) {
+        try {
+            return Files.readString(templatePath, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to read template: " + templatePath, e);
+        }
+    }
+
+    private void writeTemplate(Path templatePath, String updatedTemplate) {
+        try {
+            Files.writeString(templatePath, updatedTemplate, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to write template: " + templatePath, e);
+        }
     }
 }
